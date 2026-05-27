@@ -1,0 +1,84 @@
+<div class="ct_inner_header_bg ct_mt_30 ct_px_30 ct_d_align_center justify-content-between gap-3 ct_flex_col_575">
+    <div>
+        <h4 class="ct_fs_35 mb-2 ct_ff_Matter_Medium">Users</h4>
+        <p class="mb-0 ct_text_929292 ct_fs_18">
+            Manage your team members and their access
+        </p>
+    </div>
+
+</div>
+<div class="ct_px_30 ct_mt_30 pb-4">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="ct_search_box_bg ct_flex_col_575">
+                    <div class="form-group ct_search_input position-relative ct_flex_1 ct_w_100_575">
+                        <input type="text" class="form-control ct_input ct_input_ps_50 ct_h_48"
+                            placeholder="Search..." [(ngModel)]="searchText"
+                            (input)="filterTable()" [ngModelOptions]="{standalone: true}" />
+                        <img src="/img/search_icon.svg" class="ct_input_icon_left" />
+                    </div>
+                    <!-- <div class="ct_w_100_575">
+                        <select class="form-control ct_input ct_grey_select">
+                            <option value="">Latest</option>
+                        </select>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="table-responsive">
+                    <table class="table ct_custom_table">
+                        <thead>
+                            <th>S.No</th>
+                            <th>Profile</th>
+                            <th>User Name</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <!-- <th>Compny Name</th> -->
+                            <th>Block</th>
+                            <th>Action</th>
+                        </thead>
+                        <tbody>
+                            <tr
+                                *ngFor="let item of filteredData | paginate: { itemsPerPage: 10, currentPage: p }; let i = index">
+                                <td>{{(p - 1) * 10 + i + 1}}</td>
+                                <td>
+                                    <img [src]="item.profile_images ? item.profile_images : '/img/no_pro.png'"
+                                        class="ct_img_40" />
+                                </td>
+                                <td>{{item.name}}</td>
+                                <td>{{item.email}}</td>
+                                <td>{{item.role}}</td>
+                                <!-- <td>{{item.workspace_name}}</td> -->
+                                <td>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" [(ngModel)]="item.is_block"
+                                            (click)="handleCheckboxChange(item)">
+                                        <div class="toggle-switch-background">
+                                            <div class="toggle-switch-handle"></div>
+                                        </div>
+                                    </label>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center gap-3">
+                                        <a [routerLink]="['/main/user-details']" [queryParams]="{ userId: item.id, role: item.role }">
+                                            <img src="/img/eye_purple_icon.png" class="ct_icon_24" alt="" />
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div *ngIf="filteredData?.length == 0" class="text-center">
+                        <p class="ct_fs_15 mt-5">No users found</p>
+                    </div>
+                </div>
+                <pagination-controls class="ct_pagination_div" *ngIf="!(filteredData?.length == 0)"
+                    (pageChange)="p = $event"></pagination-controls>
+            </div>
+        </div>
+    </div>
+</div>

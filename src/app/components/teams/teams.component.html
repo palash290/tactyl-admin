@@ -1,0 +1,95 @@
+<div class="ct_inner_header_bg ct_mt_30 ct_px_30 ct_d_align_center justify-content-between gap-3 ct_flex_col_575">
+    <div>
+        <h4 class="ct_fs_35 mb-0 ct_ff_Matter_Medium">Team List </h4>
+    </div>
+</div>
+<div class="ct_px_30 ct_mt_30 pb-4">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="ct_search_box_bg ct_flex_col_575">
+                    <div class="form-group ct_search_input position-relative ct_flex_1 ct_w_100_575">
+                        <input type="text" class="form-control ct_input ct_input_ps_50 ct_h_48" placeholder="Search..."
+                            [(ngModel)]="searchText" (input)="filterTable()" [ngModelOptions]="{standalone: true}" />
+                        <img src="/img/search_icon.svg" class="ct_input_icon_left" />
+                    </div>
+                    <!-- <div class="ct_w_100_575">
+                        <select class="form-control ct_input ct_grey_select">
+                            <option value="">All Managers</option>
+                        </select>
+
+                    </div>
+                    <div class="ct_w_100_575">
+                        <select class="form-control ct_input ct_grey_select">
+                            <option value="">Sort by: Name</option>
+                        </select>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-lg-4 col-md-6 mb-4"
+                *ngFor="let item of filteredData | paginate: { itemsPerPage: 10, currentPage: p }; let i = index">
+                <div class="ct_white_bg ct_py_20_px_24">
+                    <div class="d-flex justify-content-between gap-2">
+                        <div class="ct_d_align_center gap-3">
+                            <div class="ct_team_icon">
+                                <svg width="25" height="20" viewBox="0 0 25 20" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M5.625 0C6.4538 0 7.24866 0.32924 7.83471 0.915291C8.42076 1.50134 8.75 2.2962 8.75 3.125C8.75 3.9538 8.42076 4.74866 7.83471 5.33471C7.24866 5.92076 6.4538 6.25 5.625 6.25C4.7962 6.25 4.00134 5.92076 3.41529 5.33471C2.82924 4.74866 2.5 3.9538 2.5 3.125C2.5 2.2962 2.82924 1.50134 3.41529 0.915291C4.00134 0.32924 4.7962 0 5.625 0ZM20 0C20.8288 0 21.6237 0.32924 22.2097 0.915291C22.7958 1.50134 23.125 2.2962 23.125 3.125C23.125 3.9538 22.7958 4.74866 22.2097 5.33471C21.6237 5.92076 20.8288 6.25 20 6.25C19.1712 6.25 18.3763 5.92076 17.7903 5.33471C17.2042 4.74866 16.875 3.9538 16.875 3.125C16.875 2.2962 17.2042 1.50134 17.7903 0.915291C18.3763 0.32924 19.1712 0 20 0ZM0 11.668C0 9.36719 1.86719 7.5 4.16797 7.5H5.83594C6.45703 7.5 7.04688 7.63672 7.57812 7.87891C7.52734 8.16016 7.50391 8.45312 7.50391 8.75C7.50391 10.2422 8.16016 11.582 9.19531 12.5C9.1875 12.5 9.17969 12.5 9.16797 12.5H0.832031C0.375 12.5 0 12.125 0 11.668ZM15.832 12.5C15.8242 12.5 15.8164 12.5 15.8047 12.5C16.8438 11.582 17.4961 10.2422 17.4961 8.75C17.4961 8.45312 17.4688 8.16406 17.4219 7.87891C17.9531 7.63281 18.543 7.5 19.1641 7.5H20.832C23.1328 7.5 25 9.36719 25 11.668C25 12.1289 24.625 12.5 24.168 12.5H15.832ZM8.75 8.75C8.75 7.75544 9.14509 6.80161 9.84835 6.09835C10.5516 5.39509 11.5054 5 12.5 5C13.4946 5 14.4484 5.39509 15.1517 6.09835C15.8549 6.80161 16.25 7.75544 16.25 8.75C16.25 9.74456 15.8549 10.6984 15.1517 11.4017C14.4484 12.1049 13.4946 12.5 12.5 12.5C11.5054 12.5 10.5516 12.1049 9.84835 11.4017C9.14509 10.6984 8.75 9.74456 8.75 8.75ZM5 18.957C5 16.082 7.33203 13.75 10.207 13.75H14.793C17.668 13.75 20 16.082 20 18.957C20 19.5312 19.5352 20 18.957 20H6.04297C5.46875 20 5 19.5352 5 18.957Z"
+                                        fill="#2563EB" />
+                                </svg>
+                            </div>
+                            <div>
+                                <h4 class="ct_fs_18 ct_ff_Matter_SemiBold mb-1 ">{{item.team_name}}</h4>
+                                <!-- <p class="mb-0 ct_fs_14 ct_text_clr_636E72">EST 2021</p> -->
+                            </div>
+                        </div>
+                        <div>
+                            <span class="ct_custom_badge ct_white_nowrap px-3 ct_border_radius_20 text-white"
+                                style="background-color: #8050E9;">Active</span>
+                        </div>
+
+                    </div>
+                    <ul class="ct_mt_10">
+                        <li class="ct_d_align_center justify-content-between gap-3">
+                            <p class="ct_fs_14 mb-0 ct_text_clr_4B5563">Workspaces</p>
+                            <p class="ct_fs_14 mb-0 ct_ff_Matter_SemiBold">{{item.workspace_name}}</p>
+                        </li>
+                        <li class="ct_d_align_center justify-content-between gap-3 ct_mt_10">
+                            <p class="ct_fs_14 mb-0 ct_text_clr_4B5563">Team Manager</p>
+
+                            <div class=" gap-2 d-flex align-items-start justify-content-end ct_flex_1">
+                                <img [src]="item.team_admin_profile_image ? item.team_admin_profile_image : '/img/np_pro.png'"
+                                    alt="" class="ct_img_30 ct_flex_shrink_0">
+                                <div>
+                                    <h5 class="ct_fs_14 mb-0 ct_ff_Matter_Medium text-truncate"
+                                        style="max-width: 100px;">{{item.team_admin_name}}</h5>
+                                    <p class="ct_fs_12  mb-0 text-truncate" style="max-width: 120px;">
+                                        {{item.team_admin_email}}
+                                    </p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="ct_d_align_center justify-content-between gap-3 ct_mt_10">
+                            <p class="ct_fs_14 mb-0 ct_text_clr_4B5563">Team Members</p>
+                            <p class="ct_fs_14 mb-0 ct_ff_Matter_SemiBold">{{item.total_users}}</p>
+                        </li>
+                    </ul>
+
+                    <div class="ct_mt_35 text-center">
+                        <a routerLink="/main/team-details" class="ct_purple_link ct_ff_Matter_Medium">View Details</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div *ngIf="filteredData?.length == 0" class="text-center">
+            <p class="ct_fs_15 mt-5">No teams found</p>
+        </div>
+        <pagination-controls class="ct_pagination_div" *ngIf="!(filteredData?.length == 0)"
+            (pageChange)="p = $event"></pagination-controls>
+    </div>
+</div>

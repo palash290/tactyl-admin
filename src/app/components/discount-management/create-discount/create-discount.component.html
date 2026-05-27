@@ -1,0 +1,185 @@
+<div class="ct_inner_header_bg ct_mt_30 ct_px_30">
+    <h4 class="ct_fs_35 mb-2 ct_ff_Matter_Medium">{{ isEditMode ? 'Edit Discount' : 'Create Discount' }}</h4>
+    <p class="mb-0 ct_text_929292 ct_fs_18">
+        {{ isEditMode ? 'Update coupon rules, targeting, and validity.' : 'Create a new discount code with usage and eligibility controls.' }}
+    </p>
+</div>
+
+<div class="ct_px_30 ct_mt_30 pb-4">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="ct_white_bg bg-white ct_border_radius_15">
+                    <form [formGroup]="discountForm" (ngSubmit)="submitDiscount()">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group ct_mb_15">
+                                    <label class="ct_fs_18 ct_mb_10">Code</label>
+                                    <input type="text" class="form-control ct_input" placeholder="Enter coupon code"
+                                        formControlName="code">
+                                    <small class="text-danger"
+                                        *ngIf="formControls['code'].touched && formControls['code'].invalid">
+                                        {{ validationErrorService.getErrorMessage('Code', formControls['code']) }}
+                                    </small>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group ct_mb_15">
+                                    <label class="ct_fs_18 ct_mb_10">Discount Type</label>
+                                    <select class="form-control ct_input" formControlName="discount_type">
+                                        <option value="percentage">Percentage</option>
+                                        <option value="fixed">Fixed</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group ct_mb_15">
+                                    <label class="ct_fs_18 ct_mb_10">Discount Value</label>
+                                    <input type="number" min="0.01" step="0.01" class="form-control ct_input"
+                                        placeholder="Enter discount value" formControlName="discount_value">
+                                    <small class="text-danger"
+                                        *ngIf="formControls['discount_value'].touched && formControls['discount_value'].invalid">
+                                        {{ validationErrorService.getErrorMessage('Discount value', formControls['discount_value']) }}
+                                    </small>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group ct_mb_15">
+                                    <label class="ct_fs_18 ct_mb_10">Max Discount Amount</label>
+                                    <input type="number" min="0.01" step="0.01" class="form-control ct_input"
+                                        placeholder="Leave blank for no cap" formControlName="max_discount_amount">
+                                    <small class="text-danger"
+                                        *ngIf="formControls['max_discount_amount'].touched && formControls['max_discount_amount'].invalid">
+                                        {{ validationErrorService.getErrorMessage('Max discount amount', formControls['max_discount_amount']) }}
+                                    </small>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group ct_mb_15">
+                                    <label class="ct_fs_18 ct_mb_10">Minimum Plan Price</label>
+                                    <input type="number" min="0" step="0.01" class="form-control ct_input"
+                                        placeholder="Enter minimum plan price" formControlName="min_plan_price">
+                                    <small class="text-danger"
+                                        *ngIf="formControls['min_plan_price'].touched && formControls['min_plan_price'].invalid">
+                                        {{ validationErrorService.getErrorMessage('Minimum plan price', formControls['min_plan_price']) }}
+                                    </small>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group ct_mb_15">
+                                    <label class="ct_fs_18 ct_mb_10">Usage Limit</label>
+                                    <input type="number" min="1" step="1" class="form-control ct_input"
+                                        placeholder="Leave blank for unlimited usage" formControlName="usage_limit">
+                                    <small class="text-danger"
+                                        *ngIf="formControls['usage_limit'].touched && formControls['usage_limit'].invalid">
+                                        {{ validationErrorService.getErrorMessage('Usage limit', formControls['usage_limit']) }}
+                                    </small>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group ct_mb_15">
+                                    <label class="ct_fs_18 ct_mb_10">Scope</label>
+                                    <select class="form-control ct_input" formControlName="scope">
+                                        <option value="all">All Plans</option>
+                                        <option value="plan">Specific Plan</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6" *ngIf="formControls['scope'].value === 'plan'">
+                                <div class="form-group ct_mb_15">
+                                    <label class="ct_fs_18 ct_mb_10">Plan</label>
+                                    <select class="form-control ct_input" formControlName="plan_id">
+                                        <option [ngValue]="null" disabled>Select plan</option>
+                                        <option *ngFor="let plan of allPlans" [ngValue]="plan.id || plan.plan_id">
+                                            {{ plan.name || plan.plan_name || ('Plan #' + (plan.id || plan.plan_id)) }}
+                                        </option>
+                                    </select>
+                                    <small class="text-danger"
+                                        *ngIf="formControls['plan_id'].touched && formControls['plan_id'].invalid">
+                                        {{ validationErrorService.getErrorMessage('Plan', formControls['plan_id']) }}
+                                    </small>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group ct_mb_15">
+                                    <label class="ct_fs_18 ct_mb_10">Eligibility</label>
+                                    <select class="form-control ct_input" formControlName="eligibility">
+                                        <option value="all">All Users</option>
+                                        <option value="specific_user">Specific User</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6" *ngIf="formControls['eligibility'].value === 'specific_user'">
+                                <div class="form-group ct_mb_15">
+                                    <label class="ct_fs_18 ct_mb_10">Eligible User</label>
+                                    <select class="form-control ct_input" formControlName="eligible_user_id">
+                                        <option [ngValue]="null">Select user</option>
+                                        <option *ngFor="let user of allUsers" [ngValue]="user.id || user.user_id">
+                                            {{ user.fullName || user.name || user.email || ('User #' + (user.id || user.user_id)) }}
+                                        </option>
+                                    </select>
+                                    <small class="text-danger"
+                                        *ngIf="formControls['eligible_user_id'].touched && formControls['eligible_user_id'].invalid">
+                                        {{ validationErrorService.getErrorMessage('Eligible user', formControls['eligible_user_id']) }}
+                                    </small>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group ct_mb_15">
+                                    <label class="ct_fs_18 ct_mb_10">Expiry Date</label>
+                                    <input type="datetime-local" class="form-control ct_input" formControlName="expires_at">
+                                    <small class="text-danger"
+                                        *ngIf="formControls['expires_at'].touched && formControls['expires_at'].invalid">
+                                        {{ validationErrorService.getErrorMessage('Expiry date', formControls['expires_at']) }}
+                                    </small>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6" *ngIf="isEditMode">
+                                <div class="form-group ct_mb_15">
+                                    <label class="ct_fs_18 ct_mb_10">Status</label>
+                                    <div class="ct_toggle_wrap">
+                                        <input id="discountStatus" type="checkbox" formControlName="is_active">
+                                        <label for="discountStatus" class="mb-0">
+                                            {{ formControls['is_active'].value ? 'Active' : 'Inactive' }}
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex align-items-center gap-3 mt-4">
+                            <a routerLink="/main/discount-management" class="ct_outline_btn ct_ff_Matter_Medium text-center">
+                                Cancel
+                            </a>
+                            <button type="submit" class="ct_purple_btn ct_ff_Matter_Medium">
+                                {{ isEditMode ? 'Update Discount' : 'Create Discount' }}
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="ct_loader_main" *ngIf="isLoading">
+    <div class="loader-con">
+        <div style="--i: 0;" class="pfile"></div>
+        <div style="--i: 1;" class="pfile"></div>
+        <div class="pfile" style="--i: 2;"></div>
+        <div class="pfile" style="--i: 3;"></div>
+        <div class="pfile" style="--i: 4;"></div>
+        <div class="pfile" style="--i: 5;"></div>
+    </div>
+</div>
