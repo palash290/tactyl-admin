@@ -54,33 +54,35 @@
 
                     </div>
                     <ul class="ct_mt_10">
-                        <li class="ct_d_align_center justify-content-between gap-3">
+                        <!-- <li class="ct_d_align_center justify-content-between gap-3">
                             <p class="ct_fs_14 mb-0 ct_text_clr_4B5563">Workspaces</p>
                             <p class="ct_fs_14 mb-0 ct_ff_Matter_SemiBold">{{item.workspace_name}}</p>
-                        </li>
+                        </li> -->
                         <li class="ct_d_align_center justify-content-between gap-3 ct_mt_10">
                             <p class="ct_fs_14 mb-0 ct_text_clr_4B5563">Team Manager</p>
 
                             <div class=" gap-2 d-flex align-items-start justify-content-end ct_flex_1">
-                                <img [src]="item.team_admin_profile_image ? item.team_admin_profile_image : '/img/np_pro.png'"
+                                <img [src]="item.team_creator_profile_image ? item.team_creator_profile_image : '/img/np_pro.png'"
                                     alt="" class="ct_img_30 ct_flex_shrink_0">
                                 <div>
                                     <h5 class="ct_fs_14 mb-0 ct_ff_Matter_Medium text-truncate"
-                                        style="max-width: 100px;">{{item.team_admin_name}}</h5>
+                                        style="max-width: 100px;">{{item.team_creator_name}}</h5>
                                     <p class="ct_fs_12  mb-0 text-truncate" style="max-width: 120px;">
-                                        {{item.team_admin_email}}
+                                        {{item.team_creator_email}}
                                     </p>
                                 </div>
                             </div>
                         </li>
                         <li class="ct_d_align_center justify-content-between gap-3 ct_mt_10">
                             <p class="ct_fs_14 mb-0 ct_text_clr_4B5563">Team Members</p>
-                            <p class="ct_fs_14 mb-0 ct_ff_Matter_SemiBold">{{item.total_users}}</p>
+                            <p class="ct_fs_14 mb-0 ct_ff_Matter_SemiBold">{{item.total_members}}</p>
                         </li>
                     </ul>
 
                     <div class="ct_mt_35 text-center">
-                        <a routerLink="/main/team-details" class="ct_purple_link ct_ff_Matter_Medium">View Details</a>
+                        <a [routerLink]="['/main/team-details']"
+                            [queryParams]="{ teamId: item.team_id, teamName: item.team_name }"
+                            class="ct_purple_link ct_ff_Matter_Medium">View Details</a>
                     </div>
                 </div>
 

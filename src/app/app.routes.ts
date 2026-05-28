@@ -70,6 +70,15 @@ export const routes: Routes = [
                         path: 'board-details',
                         loadComponent: () => import('./components/workspace/team-details/boards/view-board/view-board.component').then(m => m.ViewBoardComponent)
                   },
+                   {
+                        path: 'note-details',
+                        loadComponent: () => import('./components/workspace/team-details/tasks/note-details/note-details.component').then(m => m.NoteDetailsComponent)
+                  },
+
+                  {
+                        path: 'task-details',
+                        loadComponent: () => import('./components/workspace/team-details/tasks/tasks-details/tasks-details.component').then(m => m.TasksDetailsComponent)
+                  },
 
                   {
                         path: 'phases',

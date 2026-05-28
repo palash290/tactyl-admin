@@ -1,0 +1,93 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="ct_search_box_bg ct_flex_1 ct_w_100_767 ct_flex_col_575">
+            <div class="form-group ct_search_input position-relative ct_flex_1 ct_w_100_575">
+                <input type="text" class="form-control ct_input ct_input_ps_50 ct_h_48" placeholder="Search members"
+                    [(ngModel)]="searchText" (input)="getAllTasks()">
+                <img src="/img/search_icon.svg" class="ct_input_icon_left">
+            </div>
+        </div>
+
+        <div class="table-responsive ">
+            <table class="table ct_custom_table">
+                <thead>
+                    <tr>
+                        <th>S.No</th>
+                        <th>Task Title</th>
+                        <th>Team</th>
+                        <th>Assignee</th>
+                        <th>Type</th>
+                        <!-- <th *ngIf="planService.hasTeamAccess()">Assign To</th> -->
+                        <th>Priority</th>
+                        <th>Phase</th>
+                        <!-- <th>Task Score</th> -->
+                        <th>Created At</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of taskList | paginate: { itemsPerPage: 10, currentPage: p }; let i = index">
+                        <td>{{(p - 1) * 10 + i + 1}}</td>
+                        <td>
+                            <span class="ct_overlay_text d-inline-block">{{item.title}}</span>
+                        </td>
+                        <td>{{item.team.team_name || '-'}}</td>
+                        <td>{{item.assigned_by.full_name}}</td>
+                        <td>
+                            @if(item.team_id){
+                            Team Task
+                            } @else {
+                            My Task
+                            }
+                        </td>
+                        <!-- <td *ngIf="planService.hasTeamAccess()">{{item.assigned_to.full_name}}</td> -->
+                        <td>
+                            @if(item.priority == 'P1'){
+                            <span class="ct_custom_badge ct_ff_Matter_Medium ct_fs_16 ct_border_radius_20"
+                                style="background-color: #FEE2E2; color: #991B1B;">P1</span>
+                            }
+
+
+                            @if(item.priority == 'P2'){
+                            <span class="ct_custom_badge ct_ff_Matter_Medium ct_fs_16 ct_border_radius_20"
+                                style="background-color: #FFEDD5; color: #9A3412;">P2</span>
+                            }
+
+
+                            @if(item.priority == 'P3'){
+                            <span class="ct_custom_badge ct_ff_Matter_Medium ct_fs_16 ct_border_radius_20"
+                                style="background-color: #DCFCE7; color: #166534;">P3</span>
+                            }
+
+                            @if(item.priority == 'P4'){
+                            <span class="ct_custom_badge ct_ff_Matter_Medium ct_fs_16 ct_border_radius_20"
+                                style="background-color: #2222220A; color: #222222;">P4</span>
+                            }
+                        </td>
+                        <td>
+                            {{item.phase.phase_name}}
+                        </td>
+                        <td>{{item.created_at | date:'dd-MMM-yyyy'}}</td>
+                        <td>
+                            <div class="d-flex align-items-center gap-3">
+
+                                <a [routerLink]="['/main/task-details']"
+                                    [queryParams]="{ taskId: item.task_id, teamId: item.team_id, boardId: item.board_id }">
+                                    <img src="img/eye_purple_icon.png" class="ct_icon_24" alt="" title="View">
+                                </a>
+
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="col-md-12">
+                <div class="ct_no_recod_found_bg" *ngIf="taskList?.length == 0">
+                    <p class="text-center mb-0 ct_fs_20">No tasks found</p>
+                </div>
+            </div>
+        </div>
+        <pagination-controls class="ct_pagination_div" *ngIf="!(taskList?.length == 0)"
+            (pageChange)="p = $event"></pagination-controls>
+    </div>
+</div>

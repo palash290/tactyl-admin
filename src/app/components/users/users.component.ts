@@ -53,7 +53,7 @@ export class UsersComponent {
   }
 
   handleCheckboxChange(row: any) {
-    if (row.is_block) {
+    if (row.is_active) {
       Swal.fire({
         title: "Are you sure?",
         text: "You want to unblock this user!",
@@ -66,8 +66,8 @@ export class UsersComponent {
       }).then((result: any) => {
         if (result.isConfirmed) {
           const formURlData = new URLSearchParams();
-          formURlData.set('user_id', row.id);
-          formURlData.set('is_block', '0');
+          formURlData.set('user_id', row.user_id);
+          formURlData.set('is_active', '0');
           this.service.post(`admin/blockAndUnblockUser`, formURlData.toString()).subscribe({
             next: (resp: any) => {
               this.toastr.success(resp.message);
@@ -91,8 +91,8 @@ export class UsersComponent {
       }).then((result: any) => {
         if (result.isConfirmed) {
           const formURlData = new URLSearchParams();
-          formURlData.set('user_id', row.id);
-          formURlData.set('is_block', '1');
+          formURlData.set('user_id', row.user_id);
+          formURlData.set('is_active', '1');
           this.service.post(`admin/blockAndUnblockUser`, formURlData.toString()).subscribe({
             next: (resp: any) => {
               this.toastr.success(resp.message);

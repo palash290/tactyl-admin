@@ -36,8 +36,6 @@
                             <th>Profile</th>
                             <th>User Name</th>
                             <th>Email</th>
-                            <th>Role</th>
-                            <!-- <th>Compny Name</th> -->
                             <th>Block</th>
                             <th>Action</th>
                         </thead>
@@ -49,13 +47,11 @@
                                     <img [src]="item.profile_images ? item.profile_images : '/img/no_pro.png'"
                                         class="ct_img_40" />
                                 </td>
-                                <td>{{item.name}}</td>
+                                <td>{{item.full_name}}</td>
                                 <td>{{item.email}}</td>
-                                <td>{{item.role}}</td>
-                                <!-- <td>{{item.workspace_name}}</td> -->
                                 <td>
                                     <label class="toggle-switch">
-                                        <input type="checkbox" [(ngModel)]="item.is_block"
+                                        <input type="checkbox" [(ngModel)]="item.is_active"
                                             (click)="handleCheckboxChange(item)">
                                         <div class="toggle-switch-background">
                                             <div class="toggle-switch-handle"></div>
@@ -64,7 +60,7 @@
                                 </td>
                                 <td>
                                     <div class="d-flex align-items-center gap-3">
-                                        <a [routerLink]="['/main/user-details']" [queryParams]="{ userId: item.id, role: item.role }">
+                                        <a [routerLink]="['/main/user-details']" [queryParams]="{ userId: item.user_id, role: item.role }">
                                             <img src="/img/eye_purple_icon.png" class="ct_icon_24" alt="" />
                                         </a>
                                     </div>

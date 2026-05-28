@@ -1,1 +1,359 @@
-<p>members works!</p>
+<div class="row">
+    <div class="col-md-12">
+        <div class="tab-content " id="pills-tabContent">
+            <div class="tab-pane fade active show" id="pills-Users" role="tabpanel" aria-labelledby="pills-Users-tab">
+                <div class="ct_search_box_bg ct_flex_1 ct_w_100_767 ct_flex_col_575">
+                    <div class="form-group ct_search_input position-relative ct_flex_1 ct_w_100_575">
+                        <input type="text" class="form-control ct_input ct_input_ps_50 ct_h_48"
+                            placeholder="Search members">
+                        <img src="/img/search_icon.svg" class="ct_input_icon_left">
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table ct_custom_table">
+                        <thead>
+                            <tr>
+                                <th>S.No</th>
+                                <th>Profile</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Plan</th>
+                                <th>Designation</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr
+                                *ngFor="let item of filteredData | paginate: { itemsPerPage: 10, currentPage: p }; let i = index">
+                                <td>{{(p - 1) * 10 + i + 1}}</td>
+                                <td>
+                                    <img [src]="item.profile_image ? item.profile_image : '/img/no_pro.png'"
+                                        class="ct_img_40" />
+                                </td>
+                                <td>{{item.full_name}}</td>
+                                <td>{{item.email}}</td>
+                                <td>{{item.current_plan ? item.current_plan.plan_name : 'No Active Plan'}}</td>
+                                <td>{{item.designation ? item.designation : '-'}}</td>
+                                <td>
+
+                                    @if(item.full_name == team_creator_name){
+                                    <span class="ct_text_blue ct_fw_600">Team Admin</span>
+                                    }
+
+                                    @else if(item.status == 'Pending'){
+                                    <span class="ct_orange_text">Pending</span>
+                                    }
+
+                                    @else if(item.status == 'Accepted'){
+                                    <span class="ct_green_text">Accepted</span>
+                                    }
+
+                                    @else if(item.status == 'Rejected'){
+                                    <span class="ct_red_text">Rejected</span>
+                                    }
+
+                                </td>
+
+                                <td>
+                                    <div class="d-flex align-items-center gap-3">
+                                        <a [routerLink]="['/main/view-team-member']"
+                                            [queryParams]="{ memberId: item.user_id, teamId: teamId }">
+                                            <img src="/img/eye_purple_icon.png" class="ct_icon_24" alt=""
+                                                title="View" />
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div *ngIf="filteredData?.length == 0" class="text-center">
+                    <p class="ct_fs_15 mt-5">No members found</p>
+                </div>
+                <pagination-controls class="ct_pagination_div" *ngIf="!(filteredData?.length == 0)"
+                    (pageChange)="p = $event"></pagination-controls>
+            </div>
+            <div class="tab-pane fade" id="pills-Permissions" role="tabpanel" aria-labelledby="pills-Permissions-tab">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="table-responsive">
+                            <table class="table ct_custom_table">
+                                <thead>
+                                    <tr>
+                                        <th>S.No</th>
+                                        <th>Permission</th>
+                                        <th>Team Manager</th>
+                                        <th>Team Member</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>View all tasks</td>
+                                        <td>
+                                            <label class="toggle-switch">
+                                                <input type="checkbox">
+                                                <div class="toggle-switch-background">
+                                                    <div class="toggle-switch-handle"></div>
+                                                </div>
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <label class="toggle-switch">
+                                                <input type="checkbox">
+                                                <div class="toggle-switch-background">
+                                                    <div class="toggle-switch-handle"></div>
+                                                </div>
+                                            </label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>Create tasks</td>
+                                        <td>
+                                            <label class="toggle-switch">
+                                                <input type="checkbox">
+                                                <div class="toggle-switch-background">
+                                                    <div class="toggle-switch-handle"></div>
+                                                </div>
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <label class="toggle-switch">
+                                                <input type="checkbox">
+                                                <div class="toggle-switch-background">
+                                                    <div class="toggle-switch-handle"></div>
+                                                </div>
+                                            </label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td>Edit tasks</td>
+                                        <td>
+                                            <label class="toggle-switch">
+                                                <input type="checkbox">
+                                                <div class="toggle-switch-background">
+                                                    <div class="toggle-switch-handle"></div>
+                                                </div>
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <label class="toggle-switch">
+                                                <input type="checkbox">
+                                                <div class="toggle-switch-background">
+                                                    <div class="toggle-switch-handle"></div>
+                                                </div>
+                                            </label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>4</td>
+                                        <td>Delete tasks</td>
+                                        <td>
+                                            <label class="toggle-switch">
+                                                <input type="checkbox">
+                                                <div class="toggle-switch-background">
+                                                    <div class="toggle-switch-handle"></div>
+                                                </div>
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <label class="toggle-switch">
+                                                <input type="checkbox">
+                                                <div class="toggle-switch-background">
+                                                    <div class="toggle-switch-handle"></div>
+                                                </div>
+                                            </label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>5</td>
+                                        <td>Assign Tasks To Members</td>
+                                        <td>
+                                            <label class="toggle-switch">
+                                                <input type="checkbox">
+                                                <div class="toggle-switch-background">
+                                                    <div class="toggle-switch-handle"></div>
+                                                </div>
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <label class="toggle-switch">
+                                                <input type="checkbox">
+                                                <div class="toggle-switch-background">
+                                                    <div class="toggle-switch-handle"></div>
+                                                </div>
+                                            </label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>6</td>
+                                        <td>Task- Mark as complete</td>
+                                        <td>
+                                            <label class="toggle-switch">
+                                                <input type="checkbox">
+                                                <div class="toggle-switch-background">
+                                                    <div class="toggle-switch-handle"></div>
+                                                </div>
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <label class="toggle-switch">
+                                                <input type="checkbox">
+                                                <div class="toggle-switch-background">
+                                                    <div class="toggle-switch-handle"></div>
+                                                </div>
+                                            </label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>7</td>
+                                        <td>Create Boards</td>
+                                        <td>
+                                            <label class="toggle-switch">
+                                                <input type="checkbox">
+                                                <div class="toggle-switch-background">
+                                                    <div class="toggle-switch-handle"></div>
+                                                </div>
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <label class="toggle-switch">
+                                                <input type="checkbox">
+                                                <div class="toggle-switch-background">
+                                                    <div class="toggle-switch-handle"></div>
+                                                </div>
+                                            </label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>8</td>
+                                        <td>Edit Boards</td>
+                                        <td>
+                                            <label class="toggle-switch">
+                                                <input type="checkbox">
+                                                <div class="toggle-switch-background">
+                                                    <div class="toggle-switch-handle"></div>
+                                                </div>
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <label class="toggle-switch">
+                                                <input type="checkbox">
+                                                <div class="toggle-switch-background">
+                                                    <div class="toggle-switch-handle"></div>
+                                                </div>
+                                            </label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>9</td>
+                                        <td>Delete Boards</td>
+                                        <td>
+                                            <label class="toggle-switch">
+                                                <input type="checkbox">
+                                                <div class="toggle-switch-background">
+                                                    <div class="toggle-switch-handle"></div>
+                                                </div>
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <label class="toggle-switch">
+                                                <input type="checkbox">
+                                                <div class="toggle-switch-background">
+                                                    <div class="toggle-switch-handle"></div>
+                                                </div>
+                                            </label>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="pills-Phases" role="tabpanel" aria-labelledby="pills-Phases-tab">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="text-end">
+                            <button class="ct_purple_btn  ct_w_100_767 ms-auto" data-bs-target="#ct_add_phase_modal"
+                                data-bs-toggle="modal">
+                                <img src="/img/plus-circle.svg" alt="" class="me-2">Create Phase
+                            </button>
+                        </div>
+                        <div class="table-responsive ct_mt_20">
+                            <table class="table ct_custom_table">
+                                <thead>
+                                    <tr>
+                                        <th>S.No</th>
+                                        <th>Phase Name</th>
+                                        <th>Description</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>
+                                            <span class="ct_overlay_text d-inline-block">Design
+                                                Review </span>
+                                        </td>
+                                        <td>
+                                            <span class="ct_overlay_text d-inline-block">UI/UX
+                                                review pending or in progress </span>
+                                        </td>
+
+
+                                        <td>
+                                            <div class="d-flex align-items-center gap-3">
+                                                <a href="javascript:void(0)" data-bs-target="#ct_edit_phase_modal"
+                                                    data-bs-toggle="modal">
+                                                    <img src="/img/edit_green_icon.png" class="ct_icon_24" alt="">
+                                                </a>
+
+                                                <a href="javascript:void(0)" data-bs-target="#ct_delete_modal"
+                                                    data-bs-toggle="modal">
+                                                    <img src="/img/Delete_icon.svg" class="ct_icon_24" alt="">
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>2</td>
+                                        <td>
+                                            <span class="ct_overlay_text d-inline-block">Design
+                                                Review </span>
+                                        </td>
+                                        <td>
+                                            <span class="ct_overlay_text d-inline-block">UI/UX
+                                                review pending or in progress </span>
+                                        </td>
+
+
+                                        <td>
+                                            <div class="d-flex align-items-center gap-3">
+                                                <a href="javascript:void(0)" data-bs-target="#ct_edit_phase_modal"
+                                                    data-bs-toggle="modal">
+                                                    <img src="/img/edit_green_icon.png" class="ct_icon_24" alt="">
+                                                </a>
+
+                                                <a href="javascript:void(0)" data-bs-target="#ct_delete_modal"
+                                                    data-bs-toggle="modal">
+                                                    <img src="/img/Delete_icon.svg" class="ct_icon_24" alt="">
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
